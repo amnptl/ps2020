@@ -1,9 +1,10 @@
-# platifi-job-portal
+# Platifi Job Portal
 
 
-### Steps to run the code:
+## Steps to run the code:
 
- run `npm install` in the `client` directory <br>
- `npm run dev` (server will run on 3001 and react on port 3000)<br>
+ run `npm install` in the `client` directory <hr/>
+ 
+`npm run dev` (server will run on 3001 and react on port 3000)<hr/>
 
- run only react by running `npm run` start inside client folder
+ To render React App, run `npm start` inside client folder
