@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../App.css';
-import Profile from './Profile';
-import { Route } from 'react-router-dom';
+import Profile from './Profile/Profile';
+import { Route, Link } from 'react-router-dom';
 
 import './dashboard.css';
 import { Layout, Avatar, Menu, Icon, Breadcrumb, Button } from 'antd';
@@ -11,7 +11,6 @@ const{Header,Footer,Sider,Content}=Layout;
 function Dashboard() {
   return (
     <div>
-    <Route path="/dashboard/profile"><Profile/> </Route>
     <Layout>
 
     <Header style={{padding:10}}>
@@ -23,7 +22,10 @@ function Dashboard() {
            <Sider>
                <Menu defaultSelectedKeys={['Dashboard']} mode="inline">
                <Menu.Item key='Dashboard'>
-               Dashboard
+               <Link to="/dashboard"> Dashboard </Link> 
+               </Menu.Item>
+               <Menu.Item key='Profile'>
+                <Link to="/dashboard/profile"> Create Profile</Link> 
                </Menu.Item>
               <SubMenu
               title={
@@ -68,6 +70,7 @@ function Dashboard() {
                     <Breadcrumb style={{ margin: '16px 0' }}>
                       <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
 
+                    <Route path="/dashboard/profile"><Profile/> </Route>
                     </Breadcrumb>
                     <div style={{background:'#fff'}}className="site-layout-content"></div>
                   </Content>
