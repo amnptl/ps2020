@@ -25,7 +25,7 @@ resendOTP(e){
   element2.disabled=true;
   var resendbut=document.getElementById('resend');
   resendbut.disabled=true;
-  setTimeout(()=>{resendbut.disabled = false;alert("ok!");},5000);
+  setTimeout(()=>{resendbut.disabled = false;alert("Resend OTP enabled");},5000);
 }
 myChangeHandler = (event) => {
   var nam = event.target.name;

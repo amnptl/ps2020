@@ -25,7 +25,7 @@ export class Signup extends React.Component{
     e.preventDefault();
     var resendbut=document.getElementById('resend');
     resendbut.disabled=true;
-    setTimeout(()=>{resendbut.disabled = false;alert("ok!");},5000);
+    setTimeout(()=>{resendbut.disabled = false;alert("Resend OTP enabled");},5000);
     var element1=document.getElementById('name');
     element1.disabled=true;
     var element2=document.getElementById('mail');

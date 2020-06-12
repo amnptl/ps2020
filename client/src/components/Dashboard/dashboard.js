@@ -22,20 +22,11 @@ function Dashboard() {
            <Sider>
                <Menu defaultSelectedKeys={['Dashboard']} mode="inline">
                <Menu.Item key='Dashboard'>
-<<<<<<< HEAD
                <Link to="/dashboard"> Dashboard </Link>
                </Menu.Item>
                <Menu.Item key='Profile'>
                 <Link to="/dashboard/profile"> Create Profile</Link>
                </Menu.Item>
-
-=======
-               <Link to="/dashboard"> Dashboard </Link> 
-               </Menu.Item>
-               <Menu.Item key='Profile'>
-                <Link to="/dashboard/profile"> Create Profile</Link> 
-               </Menu.Item>
->>>>>>> 4432209fcc9747c0c6797feb9a3538d57a4e1686
               <SubMenu
               title={
             <span>
@@ -70,13 +61,7 @@ function Dashboard() {
               </Menu.ItemGroup>
 
               </SubMenu>
-<<<<<<< HEAD
-              <Menu.Item key="Logout">
-              <Link to='../'>Logout</Link>
-              </Menu.Item>
-=======
 
->>>>>>> 4432209fcc9747c0c6797feb9a3538d57a4e1686
                </Menu>
            </Sider>
            <Layout>
