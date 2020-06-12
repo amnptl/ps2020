@@ -165,21 +165,25 @@ iframe {
 }
 
 .hov1:hover {
-  color: #c87ef0;
+  color: rgb(131,58,180);
+  color: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
 }
 .image{
   align-self: center;
   background-image: url('../img.png');
   background-size: contain;
-  margin-top: 150px;
-  margin-left: 20px;
-  width:720px;
-  height:468px;
-
-
+  position:fixed;
+  bottom:0px;
+  margin-bottom:-24px;
+  margin-left: 10px;
+  width:619px;
+  height:410px;
+  opacity: 0.95;
 }
 
-
+#otp-div,#otp-timer{
+  display: none;
+}
 
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
@@ -269,7 +273,15 @@ iframe {
   line-height: 1.2;
   text-align: left;
 }
-
+.login100-form-option {
+  display: block;
+  width: 100%;
+  font-family: Poppins-Bold;
+  font-size: 19px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+}
 
 
 /*------------------------------------------------------------------
@@ -326,11 +338,11 @@ iframe {
   -moz-transition: all 0.4s;
   transition: all 0.4s;
 
-  background: #d5007d;
-  background: -webkit-linear-gradient(45deg, #d5007d, #e53935);
-  background: -o-linear-gradient(45deg, #d5007d, #e53935);
-  background: -moz-linear-gradient(45deg, #d5007d, #e53935);
-  background: linear-gradient(45deg, #d5007d, #e53935);
+  background: #001cd5;
+  background: -webkit-linear-gradient(45deg, #001cd5, #001cd5);
+  background: -o-linear-gradient(45deg, #001cd5, #001cd5);
+  background: -moz-linear-gradient(45deg, #001cd5, #001cd5);
+  background: linear-gradient(45deg, #001cd5, #001cd5);
 }
 
 
@@ -450,6 +462,7 @@ iframe {
 
 .wrap-login100-form-btn:hover .login100-form-bgbtn {
   bottom: 0;
+  opacity: 0.7;
 }
 
 
@@ -541,7 +554,33 @@ iframe {
   transform: translateY(50%);
   right: 5px;
 }
+.google {
+  background-color: #dd4b39;
+  color: white;
+}
+.google:hover{
+  opacity: 0.8;
+  color:white;
+}
+.danger{
+  color:red;
+  font-size: 14px;
+  font-weight: bold;
+}
+.reset_btns{
+  color:blue;
+}
+#resend:disabled{
+  color: gray;
+  cursor: not-allowed;
+}
+.reset_btns:hover{
+  opacity:0.6;
+}
+#sinbtn:disabled{
+  background-color: gray;
 
+}
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
 

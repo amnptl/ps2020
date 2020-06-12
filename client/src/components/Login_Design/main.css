@@ -169,32 +169,20 @@ iframe {
 }
 
 .hov1:hover {
-  color: red;
+  color: #c87ef0;
 }
-.image1{
+.image{
   align-self: center;
-  background-image: url('../img2.jpg');
+  background-image: url('../img.jpg');
   background-size: contain;
-  margin-top: 0px;
-  margin-left: 10px;
-  width:600px;
-  height:614px;
-  position:fixed;
-  margin-bottom: -3px;
-  bottom:0;
-  opacity:0.95;
-}
-.image1-util{
-  background-image: url('../img2-u.jpg');
-  background-size: contain;
-  position:fixed;
-  align-self: center;
-  margin-left: 310px;
-  top:0px;
-  width:80px;
-  height:100px;
+  margin-top: 150px;
+  margin-left: 20px;
+  width:720px;
+  height:468px;
+
 
 }
+
 #otp-div,#otp-timer{
   display: none;
 }
@@ -245,8 +233,6 @@ iframe {
   width: calc(100% - 520px);
   position: relative;
   z-index: 1;
-  box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.6), 0 6px 25px 0 rgba(0, 0, 0, 0.6);
-  text-align: center;
 }
 
 .login100-more::before {
@@ -320,7 +306,7 @@ iframe {
 .danger{
   color:red;
   font-size: 14px;
-  font-weight: bold ;
+  font-weight: bolder;
 }
 
 .input100 {
@@ -483,20 +469,8 @@ iframe {
 .wrap-login100-form-btn:hover .login100-form-bgbtn {
   bottom: 0;
 }
-.reset_btns{
-  color:blue;
-}
-#resend:disabled{
-  color: gray;
-  cursor: not-allowed;
-}
-.reset_btns:hover{
-  opacity:0.6;
-}
-#supbtn:disabled{
-  background-color: gray;
-  cursor: not-allowed;
-}
+
+
 /*------------------------------------------------------------------
 [ Alert validate ]*/
 
@@ -585,9 +559,7 @@ iframe {
   transform: translateY(50%);
   right: 5px;
 }
-#cbk1-error{
-  display:none;
-}
+
 /*//////////////////////////////////////////////////////////////////
 [ Responsive ]*/
 
