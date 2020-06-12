@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .formDiv {
     padding: 21px;
      border-radius: 5px;
@@ -75,6 +76,93 @@ select{
       margin-bottom: 15px;
     }
 
+=======
+.formDiv {    
+    padding: 21px;    
+     border-radius: 5px;    
+     background-color: #f2f2f2;    
+    }    
+        
+    input[type=text], select     
+    {    
+      width: 100%;    
+      padding: 12px 20px;    
+      margin: 5px 0;    
+      display: inline-block;    
+      border: 1px solid #ccc;    
+      border-radius: 4px;    
+      box-sizing: border-box;    
+    }  
+    
+    input[type=date], select     
+    {    
+      width: 100%;    
+      padding: 12px 20px;    
+      margin: 8px 0;    
+      display: inline-block;    
+      border: 1px solid #ccc;    
+      border-radius: 4px;    
+      box-sizing: border-box;    
+    }
+        
+    input[type=submit] {    
+      width: 100%;    
+      background-color: #4CAF50;    
+      color: white;    
+      padding: 14px 20px;    
+      margin: 8px 0;    
+      border: none;    
+      border-radius: 4px;    
+      cursor: pointer;    
+    } 
+  
+    input[type=password], select     
+    {    
+      width: 100%;    
+      padding: 12px 20px;    
+      margin: 8px 0;    
+      display: inline-block;    
+      border: 1px solid #ccc;    
+      border-radius: 4px;    
+      box-sizing: border-box;    
+    } 
+  
+    input[type=file] {    
+      
+      background-color: rgb(140, 65, 155);  
+      
+      color: white;    
+      
+      margin: 8px 0;    
+      border: none;    
+      
+      cursor: pointer;    
+    } 
+    
+    button[type=submit] {    
+      width: 50%;
+      margin-bottom: 20px; 
+      
+          
+      background-color: rgb(140, 65, 155);    
+      color: white;    
+      padding: 14px 20px;    
+      margin-left: 8px;    
+      border: none;    
+      border-radius: 4px;    
+      cursor: pointer;    
+    } 
+        
+    input[type=submit]:hover {    
+      background-color: #45a049;    
+    }    
+    .showError{    
+      border-color: #a94442 !important;    
+      color: #a94442 !important;    
+      margin-bottom: 15px;    
+    }
+  
+>>>>>>> 4432209fcc9747c0c6797feb9a3538d57a4e1686
     html {
         box-sizing: border-box;
         font-size: 16px;
@@ -128,14 +216,27 @@ select{
         background-clip: padding-box;
         border-top: 0;
         border-right: 0;
+<<<<<<< HEAD
+=======
+        border-bottom: 1px solid #eee;
+>>>>>>> 4432209fcc9747c0c6797feb9a3538d57a4e1686
         border-left: 0;
         border-radius: 3px;
         transition: all 0.25s cubic-bezier(0.4, 0, 1, 1);
       }
       input:focus, textarea:focus {
         outline: 0;
+<<<<<<< HEAD
         /* border-bottom-color: #ffab00; */
+=======
+        border-bottom-color: #ffab00;
+>>>>>>> 4432209fcc9747c0c6797feb9a3538d57a4e1686
       }
       textarea {
         resize: vertical;
       }
+<<<<<<< HEAD
+=======
+  
+  
+>>>>>>> 4432209fcc9747c0c6797feb9a3538d57a4e1686
