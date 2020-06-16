@@ -4,6 +4,7 @@ import './css/util.css';
 import jQuery from 'jquery'
 //import './js/main.js';
 import axios from 'axios';
+import GoogleLogin from "react-google-login";
 var gen_otp="123ab"//from db
 var data;
 const validate = (email) => {
@@ -145,12 +146,29 @@ export class Signup extends React.Component{
     else {
       alert("Please enter valid details");
     }
-
+  }
+  signup(res) {
+    const googleresponse = {
+      name: res.profileObj.name,
+      email: res.profileObj.email,
+      Image: res.profileObj.imageUrl
+    };
+    alert(googleresponse.name+"\n"+googleresponse.email);
+    window.location.href="#/dashboard";
+    //debugger;
+    // axios.post('http://localhost:60200/Api/Login/SocialmediaData', googleresponse)
+    //   .then((result) => {
+    //     let responseJson = result;
+    //     sessionStorage.setItem("userData", JSON.stringify(result));
+    //     this.props.history.push('/Dashboard')
+    //   });
   }
   render(){
+    const responseGoogle = (response) => {
+          this.signup(response);
+        }
     return (
-
-      <html lang="en">
+    <html lang="en">
       <body >
       <div class="limiter">
       <div class="container-login100">
@@ -161,6 +179,13 @@ export class Signup extends React.Component{
       <span class="login100-form-title p-b-59">
       Sign Up
       <hr/>
+      <GoogleLogin
+      clientId="689118196122-o7v1jkou1ef2omo3ls7k59rljar911g0.apps.googleusercontent.com"
+      buttonText="Sign up with Google "
+      onSuccess={responseGoogle}
+      onFailure={responseGoogle}
+      cookiePolicy={"single_host_origin"}
+      />
       </span>
       <div class="wrap-input100 validate-input" >
       <input class="input100" type="text" id="name" name="name" placeholder="Name...." onChange={this.myChangeHandler}/>

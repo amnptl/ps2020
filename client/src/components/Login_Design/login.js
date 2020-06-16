@@ -2,6 +2,7 @@ import React from 'react';
 import './css/main.css';
 import './css/util.css';
 import jQuery from 'jquery'
+import GoogleLogin from "react-google-login";
 var mail;
 var gen_otp="123ab" //from db
 var data;
@@ -114,10 +115,27 @@ handleSubmit(e){
   else {
     alert("Enter Email");
   }
-
-    // window.location.href="/dashboard"
+   }
+   signup(res) {
+     const googleresponse = {
+       name: res.profileObj.name,
+       email: res.profileObj.email,
+       Image: res.profileObj.imageUrl
+     };
+     alert(googleresponse.name+"\n"+googleresponse.email);
+     window.location.href="#/dashboard";
+     //debugger;
+     // axios.post('http://localhost:60200/Api/Login/SocialmediaData', googleresponse)
+     //   .then((result) => {
+     //     let responseJson = result;
+     //     sessionStorage.setItem("userData", JSON.stringify(result));
+     //     this.props.history.push('/Dashboard')
+     //   });
    }
 render(){
+  const responseGoogle = (response) => {
+        this.signup(response);
+      }
 mail=this.state.email;
   return (
     <html lang="en">
@@ -131,10 +149,13 @@ mail=this.state.email;
     					<span class="login100-form-title p-b-59">
     						Sign In
                 <hr/>
-              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-              <a href="#" class="google btn"><i class="fa fa-google fa-fw">
-          </i> Login with Google+
-        </a>
+                <GoogleLogin
+                clientId="689118196122-o7v1jkou1ef2omo3ls7k59rljar911g0.apps.googleusercontent.com"
+                buttonText="Login with Google "
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={"single_host_origin"}
+                />
         </span>
     					<div class="wrap-input100 validate-input" data-validate="Email is required">
     						<input class="input100" type="email" id="mail" name="email" placeholder="Email...." onChange={this.myChangeHandler}/>
@@ -169,9 +190,6 @@ mail=this.state.email;
     			</div>
     		</div>
     	</div>
-
-
-
     </body>
     </html>
 

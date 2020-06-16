@@ -1,23 +1,33 @@
-import React from 'react';
-import '../App.css';
+import React, { useState } from "react";
+import GoogleLogin from "react-google-login";
+export default function Home() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [url, setUrl] = useState("");
 
-function Home() {
+  const responseGoogle = response => {
+    console.log(response);
+    setName(response.profileObj.name);
+    setEmail(response.profileObj.email);
+    setUrl(response.profileObj.imageUrl);
+  };
   return (
-    <div>
-    <div style={{backgroundColor:'#1a1919'}}>
-    <a href='/login'><h1 style={{fontSize:'300%'}}>Login here</h1></a>
-    <hr/>
+    <div className="App">
+      <h1>Signup with Google</h1>
+      {name ? (
+        <div>
+          <h1>Welcome {name}</h1>
+          <h3>Email: {email}</h3>
+          <img src={url} alt="image not found" />
+        </div>
+      ) : null}
+      <GoogleLogin
+        clientId="689118196122-o7v1jkou1ef2omo3ls7k59rljar911g0.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={"single_host_origin"}
+      />
     </div>
-    <a href='/signup'><h1 style={{fontSize:'300%'}}>Signup here</h1></a>
-    <div>
-    <a href='/Dashboard'><h1 style={{fontSize:'300%'}}>Dashboard</h1></a>
-  </div>
-      <div className='logo'></div>
-      <a href='/about'><h1 style={{fontSize:'300%'}}>About Platifi-Jobs</h1></a>
-    </div>
-
-
   );
 }
-
-export default Home;

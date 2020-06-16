@@ -59,17 +59,14 @@ function Dashboard() {
               <Menu.Item>Profile</Menu.Item>
               <Menu.Item>Settings</Menu.Item>
               <Menu.Item>Help</Menu.Item>
-
-
-
               </Menu.ItemGroup>
-
               </SubMenu>
-
+              <Menu.Item>
+              <Link to="./"> Logout </Link>
+              </Menu.Item>
                </Menu>
            </Sider>
            <Layout>
-
                <Content style={{ padding: '0 50px' }}>
                     <Breadcrumb style={{ margin: '16px 0' }}>
                       <Breadcrumb.Item>Dashboard</Breadcrumb.Item>
