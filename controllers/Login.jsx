@@ -16,7 +16,7 @@ module.exports= {
       length:10,
       charset:'alphanumeric'
     });
-    
+
     data_client=req.body;
     var newUser={
         email:req.body.email,

@@ -2,16 +2,24 @@ const UserDetails=require('./../models/userDetails');
 module.exports= {
   verify : (req,res)=>
   {
+    console.log("Verifying....");
+    console.log(req.body);
     UserDetails.findOne({'email':req.body.email})
     .then(foundUser=>{
         if(!foundUser){
+            console.log("jdsbvjbfdsiv");
             return res.send('you otp must have expired try signing up again!');
         }
-        if (req.params.verificationcode===foundUser.verificationCode){
+        console.log(foundUser);
+        if (req.body.verificationcode===foundUser.verification.verificationCode)
+        {
             UserDetails.findByIdAndUpdate(foundUser._id, { $set: { verification: { isVerified:true } } })
             .then(()=>{
+                let data={
+                  isVerified:true
+                }
                 console.log('mail verified');
-                res.send('mail verified');
+                res.json(data)
             })
             .catch(err=>{
                 console.log(err);
@@ -19,7 +27,10 @@ module.exports= {
             });
         }
         else{
-            res.send('verification code you entered is wrong!');
+          let data={
+            isVerified:false
+          }
+            res.json(data)
         }
     })
     .catch(err=>{

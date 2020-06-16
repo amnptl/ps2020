@@ -21,8 +21,10 @@
   },
   "dependencies": {
     "concurrently": "^5.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "mongoose": "^5.9.18",
     "nodemailer": "^6.4.8",
-    "randomstring": "^1.1.5",
-    "mongoose": "^5.9.18"
+    "randomstring": "^1.1.5"
   }
 }
