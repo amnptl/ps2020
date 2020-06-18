@@ -13,10 +13,10 @@ var data;
 module.exports= {
   create :(req,res) =>{
     const otp = randomString.generate({
-      length:10,
-      charset:'alphanumeric'
+      length:4,
+      charset:'numeric'
     });
-    
+
     data_client=req.body;
     var newUser={
         email:req.body.email,
@@ -40,11 +40,19 @@ module.exports= {
     .then((result) => {
         if (result != undefined) {
             console.log(result);
+            let exists={
+              alreadyExists:true
+            }
+            res.json(exists)
             console.log('returning true');
             return true;
         }
         else {
             console.log('returning false');
+            let exists={
+              alreadyExists:false
+            }
+            res.json(exists)
             return false;
         }
     })

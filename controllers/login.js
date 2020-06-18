@@ -11,21 +11,13 @@ let     express         =require('express'),
 var data_client;
 var data;
 module.exports= {
-  create :(req,res) =>{
+  verify :(req,res) =>{
     const otp = randomString.generate({
-      length:10,
-      charset:'alphanumeric'
+      length:4,
+      charset:'numeric'
     });
 
     data_client=req.body;
-    var newUser={
-        email:req.body.email,
-        verification:{
-            isVerified:false,
-            verificationCode:otp
-        },
-            name:req.body.name,
-    };
     const mailToBeSent = `
     <h1>Hi ${data_client.name}! </h1> \
         <h1>Welcome to</h1><br>    \
@@ -35,32 +27,47 @@ module.exports= {
         <b>Note:</b> This is a system generated e-mail, kindly do not reply<br>
         <b>Contact Us:</b> <a href="mailto:${config.contactEmail}">email</a>
     `;
-
     UserDetails.findOne({ email: req.body.email })
     .then((result) => {
         if (result != undefined) {
             console.log(result);
             console.log('returning true');
+            let exists={
+              alreadyExists:true
+            }
+            res.json(exists)
             return true;
         }
         else {
+          let exists={
+            alreadyExists:false
+          }
+          res.json(exists)
             console.log('returning false');
             return false;
         }
     })
     .then(alreadyExists=>{
-        if (alreadyExists === true) {
-            return res.send("email already exists");
+        if (alreadyExists === false) {
+            return res.send("email does not exists");
         }
         else {
-            UserDetails.create(newUser)
-            .then((createdUser) => {
-                // send mail here
                 sendMail(mailToBeSent)
+                .then(() =>{
+                UserDetails.updateOne({ 'email': req.body.email },
+                 { $set: { verification: { isVerified:false, verificationCode:otp } } },
+                 function(err,res){
+                   if(err)
+                   console.log(err);
+                   else {
+                     console.log("successfully updated");
+                   }
+                 })
+               })
                     .then(() => {
                       console.log(otp);
                         console.log('email has been sent!');
-                        //res.send('email has been sent');
+
                         setTimeout(() => {
                             console.log('calling delete functions');
                             UserDetails.findOne({ 'email': req.body.email })
@@ -86,10 +93,6 @@ module.exports= {
                     .catch(err => {
                         console.log(err);
                     })
-            })
-            .catch((err) => {
-                console.log(err);
-            });
         }
     })
     .catch(err => {

@@ -14,7 +14,7 @@ const validate = (email) => {
 function resendOTP(){
     var resendbut=document.getElementById('resend');
     resendbut.disabled=true;
-    setTimeout(()=>{resendbut.disabled = false;alert("Timeout");window.location.reload()},120000);
+    setTimeout(()=>{resendbut.disabled = false;},120000);
     var element1=document.getElementById('name');
     element1.disabled=true;
     var element2=document.getElementById('mail');
@@ -26,6 +26,20 @@ function resendOTP(){
         'Content-Type': 'application/json;charset=utf-8'
       },
       body:JSON.stringify(data)
+    })
+    .then((res)=>res.json())
+    .then((exists)=>{
+      console.log(exists.alreadyExists);
+      if(exists.alreadyExists)
+      {alert("Account already exists\nPlease Register to Continue");
+        window.location.href='./';
+      }
+      else {
+        var x=document.getElementById('otp-div');
+        x.style.display='block';
+        var y=document.getElementById('otp-timer');
+        y.style.display='block';
+      }
     })
   }
 export class Signup extends React.Component{
@@ -59,7 +73,7 @@ export class Signup extends React.Component{
       var y=document.getElementById('otp-timer');
       y.style.display='none';
     }
-    else if(nam=="otp" && val.length>=10 && val!=gen_otp)
+    else if(nam=="otp" && val.length>=4)// && val!=gen_otp)
     {
       data={
         email:document.getElementById('mail').value,
@@ -127,10 +141,6 @@ export class Signup extends React.Component{
     {
       var signupbtn=document.getElementById('supbtn');
       signupbtn.disabled=true;
-      var x=document.getElementById('otp-div');
-      x.style.display='block';
-      var y=document.getElementById('otp-timer');
-      y.style.display='block';
       const email=document.getElementById('mail').value;
       const name=document.getElementById('name').value;
       data={
@@ -153,15 +163,31 @@ export class Signup extends React.Component{
       email: res.profileObj.email,
       Image: res.profileObj.imageUrl
     };
-    alert(googleresponse.name+"\n"+googleresponse.email);
-    window.location.href="#/dashboard";
+    //alert(googleresponse.name+"\n"+googleresponse.email);
     //debugger;
-    // axios.post('http://localhost:60200/Api/Login/SocialmediaData', googleresponse)
-    //   .then((result) => {
-    //     let responseJson = result;
-    //     sessionStorage.setItem("userData", JSON.stringify(result));
-    //     this.props.history.push('/Dashboard')
-    //   });
+    let google_data={
+        email:googleresponse.email,
+        name:googleresponse.name
+    }
+    fetch('http://localhost:3001/api/googleSignup',
+      {
+      method:'POST',
+      headers:{
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body:JSON.stringify(google_data)
+    })
+    .then((res)=>res.json())
+    .then((exists)=>{
+      console.log(exists.alreadyExists);
+      if(exists.alreadyExists)
+      {alert("Account already exists\nPlease Register to Continue");
+        window.location.href='./';
+      }
+      else {
+            window.location.href="#/dashboard";
+      }
+    })
   }
   render(){
     const responseGoogle = (response) => {

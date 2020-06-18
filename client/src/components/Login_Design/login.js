@@ -3,9 +3,22 @@ import './css/main.css';
 import './css/util.css';
 import jQuery from 'jquery'
 import GoogleLogin from "react-google-login";
+import { CountdownCircleTimer } from "react-countdown-circle-timer";
 var mail;
-var gen_otp="123ab" //from db
 var data;
+const renderTime = ({ remainingTime }) => {
+  if (remainingTime === 0) {
+    return <div className="timer">OTP expired</div>;
+  }
+
+  return (
+    <div className="timer">
+      <div className="text">Remaining</div>
+      <div className="value">{remainingTime}</div>
+      <div className="text">seconds</div>
+    </div>
+  );
+};
 const validate = (email) => {
     const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
     return expression.test(String(email).toLowerCase())
@@ -15,8 +28,8 @@ function resendOTP(){
   element2.disabled=true;
   var resendbut=document.getElementById('resend');
   resendbut.disabled=true;
-  setTimeout(()=>{resendbut.disabled = false;alert("Timeout");window.location.reload();},120000);
-  fetch('/api/login',
+  setTimeout(()=>{resendbut.disabled = false;},120000);
+  fetch('http://localhost:3001/api/login',
     {
     method:'POST',
     headers:{
@@ -24,9 +37,22 @@ function resendOTP(){
     },
     body:JSON.stringify(data)
   })
+  .then((res)=>res.json())
+  .then((exists)=>{
+    console.log(exists.alreadyExists);
+    if(!exists.alreadyExists)
+    {alert("No account found associated with this Email\nPlease Register to Continue");
+      window.location.href='#/signup';
+    }
+    else {
+      var x=document.getElementById('otp-div');
+      x.style.display='block';
+      var y=document.getElementById('otp-timer');
+      y.style.display='block';
+    }
+  })
 }
 export class Login extends React.Component{
-
   constructor(props) {
   super(props);
   this.state = {
@@ -49,13 +75,13 @@ myChangeHandler = (event) => {
     var y=document.getElementById('otp-timer');
     y.style.display='none';
   }
-  else if(nam=="otp" && val.length>=5 && val!=gen_otp)
+  else if(nam=="otp" && val.length>=4)
   {
     data={
       email:document.getElementById('mail').value,
       verificationcode:val
     }
-    fetch('http://localhost:3001/api/login/verify',
+    fetch('http://localhost:3001/api/signup/verify',
       {
       method:'POST',
       headers:{
@@ -106,11 +132,10 @@ handleSubmit(e){
     // setTimeout(()=>{resendbut.disabled =false;alert("Resend OTP enabled");},5000);
     // var element2=document.getElementById('mail');
     // element2.disabled=true;
+    data={
+      email:document.getElementById('mail').value
+    }
     resendOTP();
-  var x=document.getElementById('otp-div');
-  x.style.display='block';
-  var y=document.getElementById('otp-timer');
-  y.style.display='block';
   }
   else {
     alert("Enter Email");
@@ -122,15 +147,29 @@ handleSubmit(e){
        email: res.profileObj.email,
        Image: res.profileObj.imageUrl
      };
-     alert(googleresponse.name+"\n"+googleresponse.email);
-     window.location.href="#/dashboard";
-     //debugger;
-     // axios.post('http://localhost:60200/Api/Login/SocialmediaData', googleresponse)
-     //   .then((result) => {
-     //     let responseJson = result;
-     //     sessionStorage.setItem("userData", JSON.stringify(result));
-     //     this.props.history.push('/Dashboard')
-     //   });
+     let google_data={
+       email:googleresponse.email,
+       name:googleresponse.name
+     }
+     fetch('http://localhost:3001/api/googleSignup',
+       {
+       method:'POST',
+       headers:{
+         'Content-Type': 'application/json;charset=utf-8'
+       },
+       body:JSON.stringify(google_data)
+     })
+     .then((res)=>res.json())
+     .then((exists)=>{
+       console.log(exists.alreadyExists);
+       if(!exists.alreadyExists)
+       {//alert("No account found associated with this Email\nPlease Register to Continue");
+         window.location.href='#/createaccount';
+       }
+       else {
+             window.location.href="#/dashboard";
+       }
+     })
    }
 render(){
   const responseGoogle = (response) => {
@@ -139,7 +178,7 @@ render(){
 mail=this.state.email;
   return (
     <html lang="en">
-    <body >
+    <body>
     	<div class="limiter">
     		<div class="container-login100">
     			<div class="login100-more"><div className='image'/></div>
@@ -169,7 +208,18 @@ mail=this.state.email;
     					</div>
               <div id="otp-timer">
               Please enter the OTP you received on your Email <label style={{color:'blue'}}>{mail}</label>
-              <h4>Circular Timer</h4>
+              <div className="timer-wrapper">
+       <CountdownCircleTimer
+         isPlaying
+         size={100}
+         strokeWidth={7}
+         duration={120}
+         colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+         onComplete={() => [true, 1000]}
+       >
+         {renderTime}
+       </CountdownCircleTimer>
+     </div>
               <button onClick={this.reset} className="reset_btns">Change Email </button>
               &nbsp;OR&nbsp;
               <button  id="resend" className="reset_btns" onClick={()=>resendOTP()}>Resend OTP</button>
@@ -192,7 +242,6 @@ mail=this.state.email;
     	</div>
     </body>
     </html>
-
   );
 }
 }

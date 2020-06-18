@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Home from './components/home';
+import createAccount from './components/createAccount';
 import Login from './components/Login_Design/login';
 import Signup from './components/Signup_Design/signup';
 import Dashboard from './components/Dashboard/dashboard';
@@ -14,7 +14,7 @@ function App() {
                   <Route path="/" exact component={Login} />
                   <Route path="/signup" component={Signup} />
                   <Route path="/dashboard" component={Dashboard} />
-                  <Route path="/home" component={Home} />
+                  <Route path="/createaccount" component={createAccount} />
             </Switch>
       </div>
     </Router>

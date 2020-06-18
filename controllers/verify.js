@@ -8,12 +8,12 @@ module.exports= {
     .then(foundUser=>{
         if(!foundUser){
             console.log("jdsbvjbfdsiv");
-            return res.send('you otp must have expired try signing up again!');
+            return res.send('your otp must have expired try signing up again!');
         }
         console.log(foundUser);
         if (req.body.verificationcode===foundUser.verification.verificationCode)
         {
-            UserDetails.findByIdAndUpdate(foundUser._id, { $set: { verification: { isVerified:true } } })
+            UserDetails.findByIdAndUpdate(foundUser._id, { $set: { verification: { isVerified:true,verificationCode:req.body.verificationcode } } })
             .then(()=>{
                 let data={
                   isVerified:true
@@ -30,6 +30,7 @@ module.exports= {
           let data={
             isVerified:false
           }
+          console.log('mail not verified');
             res.json(data)
         }
     })

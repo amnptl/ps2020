@@ -1,3 +1,27 @@
+/*////////////////////////////////////////////////////////////////////
+CirCULAR TIMER
+*/
+.timer-wrapper {
+  display: flex;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  justify-content: center;
+}
+
+.timer {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text {
+  color: #aaa;
+}
+
+.value {
+  font-size: 14px;
+}
 
 
 

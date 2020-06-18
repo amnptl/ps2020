@@ -4,11 +4,14 @@ let     express         =require('express'),
         UserDetails     =require('./models/userDetails'),
         app             =express(),
         Signup          =require('./controllers/signup'),
+        Login           =require('./controllers/login'),
         UserList        =require('./controllers/UserList'),
         Verify          =require('./controllers/verify'),
         VerifyEmail     =require('./controllers/verifyEmail');
         path            =require('path');
         cors            =require('cors');
+        googleSignup    =require('./controllers/googlesignup');
+        googleLogin     =require('./controllers/googlelogin');
         Router          =express.Router();
 mongoose.connect('mongodb://localhost/apiTest', { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
 // body parser middleware
@@ -29,10 +32,12 @@ UserDetails.find()
     }
 });
 app.post('/api/signup',Signup.create);
+app.post('/api/login',Login.verify);
 app.get('/api/users',UserList.users);
 app.post('/api/signup/verify',Verify.verify);
 app.post('/api/verifyEmail',VerifyEmail.verifyemail);
-//app.post('/api/login',Login.verifylogin)
+app.post('/api/googlesignup',googleSignup.create);
+app.post('/api/googlelogin',googleLogin.verify);
 app.listen(3001, ()=>{
     console.log('listening on the port 3001');
 });
