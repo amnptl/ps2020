@@ -1,4 +1,5 @@
 const Auth = {
+    // both kept as true for testing
   isAuthenticated: true,
   isAdmin:true,
   authenticate() {
