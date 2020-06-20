@@ -4,6 +4,7 @@ import createAccount from './components/createAccount';
 import Login from './components/Login_Design/login';
 import Signup from './components/Signup_Design/signup';
 import Dashboard from './components/Dashboard/dashboard';
+import AdminDashboard from './components/Dashboard/AdminDashboard'
 import About from './components/about';
 import { HashRouter as Router, Switch, Route} from 'react-router-dom';
 function App() {
@@ -14,6 +15,7 @@ function App() {
                   <Route path="/" exact component={Login} />
                   <Route path="/signup" component={Signup} />
                   <Route path="/dashboard" component={Dashboard} />
+                  <Route path="/admindashboard" component={AdminDashboard} />
                   <Route path="/createaccount" component={createAccount} />
             </Switch>
       </div>
