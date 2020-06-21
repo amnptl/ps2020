@@ -89,7 +89,7 @@ module.exports= {
                             .catch(err => {
                                 console.log(err);
                             })
-                        }, 130000);
+                        }, 125000);
                     })
                     .catch(err => {
                         console.log(err);
@@ -120,9 +120,9 @@ async function sendMail(mailContent) {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: 'Nodemailer', // sender address
+        from: 'Platifi Jobs <platifi.jobs@gmail.com>', // sender address
         to: data_client.email, // list of receivers
-        subject: "nodemailer test", // Subject line
+        subject: "New Registration", // Subject line
         text: "Hello world?", // plain text body
         html: mailContent, // html body
     });

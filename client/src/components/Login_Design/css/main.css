@@ -215,7 +215,7 @@ iframe {
   margin: 0 auto;
 }
 .logo{
-  background-image: url('../assets/homelogo.png');
+  background-image: url('../.././homelogo.png');
   background-size: contain;
   width: 280px;
   height: 55px;
@@ -294,7 +294,7 @@ iframe {
   font-size: 39px;
   color: #333333;
   line-height: 1.2;
-  text-align: left;
+  text-align: center;
 }
 .login100-form-option {
   display: block;
@@ -550,13 +550,6 @@ iframe {
   opacity: 1;
 }
 
-@media (max-width: 992px) {
-  .alert-validate::before {
-    visibility: visible;
-    opacity: 1;
-  }
-}
-
 .true-validate::after {
   content: "\f26b";
   font-family: Material-Design-Iconic-Font;
@@ -610,8 +603,28 @@ iframe {
 [ Responsive ]*/
 
 @media (max-width: 576px) {
-  .wrap-login100 {
-    padding-left: 15px;
-    padding-right: 15px;
+
+.login100-more{
+  display:none;
+}
+.wrap-login100{
+  max-width: 100vw;
+  max-height: 100vh;
+}
+}
+@media (max-width: 1024px){
+  .login100-more{
+    max-width: 50vw;
+    background: rgb(51,177,255);
+  background: -moz-linear-gradient(90deg, rgba(51,177,255,1) 0%, rgba(12,46,226,1) 100%);
+  background: -webkit-linear-gradient(90deg, rgba(51,177,255,1) 0%, rgba(12,46,226,1) 100%);
+  background: linear-gradient(90deg, rgba(51,177,255,1) 0%, rgba(12,46,226,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#33b1ff",endColorstr="#0c2ee2",GradientType=1);  }
+  body{
+    max-width: 100vw;
+    max-height: 100vh;
+  }
+  .image{
+    display: none;
   }
 }

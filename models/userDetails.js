@@ -8,12 +8,8 @@ var userDetailsSchema = new mongoose.Schema({
         },
         verificationCode:String
     },
-    details: {
         name: String,
-        phoneNumber: String,
-        dateOfBirth: String,
-        resumeLink: String
-    }
+        loginCheck:Boolean
 });
 
 module.exports = mongoose.model("userDetails", userDetailsSchema);

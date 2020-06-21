@@ -12,13 +12,11 @@ const validate = (email) => {
   return expression.test(String(email).toLowerCase())
 }
 function resendOTP(){
-    var resendbut=document.getElementById('resend');
-    resendbut.disabled=true;
-    setTimeout(()=>{resendbut.disabled = false;},120000);
-    var element1=document.getElementById('name');
-    element1.disabled=true;
-    var element2=document.getElementById('mail');
-    element2.disabled=true;
+    setTimeout(()=>{window.location.reload()},120000);
+    var element1=document.getElementById('name-div');
+    element1.style.display='none';
+    var element2=document.getElementById('email-div');
+    element2.style.display='none';
     fetch('http://localhost:3001/api/signup',
       {
       method:'POST',
@@ -118,20 +116,6 @@ export class Signup extends React.Component{
       document.getElementById('cbk1-error').style.display='block';
     }
   }
-  reset(e)
-  {
-    e.preventDefault();
-    var signupbtn=document.getElementById('supbtn');
-    signupbtn.disabled=false;
-    var element1=document.getElementById('name');
-    element1.disabled=false;
-    var element2=document.getElementById('mail');
-    element2.disabled=false;
-    var x=document.getElementById('otp-div');
-    x.style.display='none';
-    var y=document.getElementById('otp-timer');
-    y.style.display='none';
-  }
   handleSubmit(e){
     e.preventDefault();
     var mail=document.getElementById('mail').value;
@@ -213,12 +197,12 @@ export class Signup extends React.Component{
       cookiePolicy={"single_host_origin"}
       />
       </span>
-      <div class="wrap-input100 validate-input" >
+      <div class="wrap-input100 validate-input" id="name-div" >
       <input class="input100" type="text" id="name" name="name" placeholder="Name...." onChange={this.myChangeHandler}/>
       {this.state.nameErr? <div className="danger">{this.state.nameErr}</div>:null}
       <span class="focus-input100"></span>
       </div>
-      <div class="wrap-input100 validate-input"  >
+      <div class="wrap-input100 validate-input"  id="email-div">
       <input class="input100" type="email" id="mail" name="email" placeholder="Email...." onChange={this.myChangeHandler}/>
       {this.state.emailErr? <div className="danger">{this.state.emailErr}</div>:null}
       <span class="focus-input100"></span>
@@ -231,9 +215,6 @@ export class Signup extends React.Component{
       <div id="otp-timer">
       Please enter the OTP you received on your Email<label style={{color:'blue'}}> {this.state.email}</label>
       <h4>Circular Timer</h4>
-      <button onClick={this.reset} className="reset_btns">Change Email </button>
-      &nbsp;OR&nbsp;
-      <button  id="resend" className="reset_btns" onClick={()=>resendOTP()}>Resend OTP</button>
       </div>
       <div class="flex-m w-full p-b-33">
       <div class="contact100-form-checkbox">
