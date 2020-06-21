@@ -62,7 +62,7 @@ export class Signup extends React.Component{
       let nameErr="Name is required";
       this.setState({nameErr});
     }
-    else if(nam=="email" && !validate(val)&&val!="")
+    else if(nam=="email" && !validate(val) && val!="")
     {
       let emailErr="Invalid Email";
       this.setState({emailErr});
@@ -70,6 +70,33 @@ export class Signup extends React.Component{
       x.style.display='none';
       var y=document.getElementById('otp-timer');
       y.style.display='none';
+    }
+    else if(nam=="email" && validate(val))
+    {
+      let email_data={
+        email:val.toLowerCase()
+      }
+      fetch('http://localhost:3001/api/login/check',
+        {
+        method:'POST',
+        headers:{
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body:JSON.stringify(email_data)
+      })
+      .then((res)=>res.json())
+      .then((exists)=>{
+        console.log(exists.alreadyExists);
+        if(exists.alreadyExists)
+        {
+          let emailErr="Account already exists\nPlease Login";
+          this.setState({emailErr});
+        }
+        else {
+          let emailErr="";
+          this.setState({emailErr});
+        }
+      });
     }
     else if(nam=="otp" && val.length>=4)// && val!=gen_otp)
     {

@@ -72,7 +72,8 @@ myChangeHandler = (event) => {
     x.style.display='none';
     var y=document.getElementById('otp-timer');
     y.style.display='none';
-  }  else if(nam=="email" && validate(val))
+  }
+  else if(nam=="email" && validate(val))
   {
     let email_data={
       email:val.toLowerCase()
