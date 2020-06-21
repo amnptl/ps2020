@@ -55,7 +55,7 @@ module.exports= {
                 sendMail(mailToBeSent)
                 .then(() =>{
                 UserDetails.updateOne({ 'email': req.body.email },
-                 { $set: { verification: { isVerified:false, verificationCode:otp } } },
+                 { $set: { verification: { isVerified:true, verificationCode:otp },loginCheck:false } },
                  function(err,res){
                    if(err)
                    console.log(err);
@@ -73,22 +73,11 @@ module.exports= {
                             UserDetails.findOne({ 'email': req.body.email })
                             .then((foundUser) => {
                                 console.log(foundUser);
-                                if (foundUser.verification.isVerified == false) {
-                                    // delete the user
-                                    console.log("user found unverified!");
-                                    UserDetails.findOneAndDelete({ 'email': foundUser.email })
-                                    .then(deletedUser => {
-                                        console.log(deletedUser);
-                                    })
-                                    .catch(err => {
-                                        console.log(err);
-                                    });
-                                }
                             })
                             .catch(err => {
                                 console.log(err);
                             })
-                        }, 130000);
+                        }, 125000);
                     })
                     .catch(err => {
                         console.log(err);
@@ -115,9 +104,9 @@ async function sendMail(mailContent) {
 
     // send mail with defined transport object
     let info = await transporter.sendMail({
-        from: 'Nodemailer', // sender address
+        from: 'Platifi Jobs <platifi.jobs@gmail.com>', // sender address
         to: data_client.email, // list of receivers
-        subject: "nodemailer test", // Subject line
+        subject: "Login Attempt", // Subject line
         text: "Hello world?", // plain text body
         html: mailContent, // html body
     });

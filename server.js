@@ -7,6 +7,8 @@ let     express         =require('express'),
         Login           =require('./controllers/login'),
         UserList        =require('./controllers/UserList'),
         Verify          =require('./controllers/verify'),
+        loginverify     =require('./controllers/loginverify')
+        logincheck      =require('./controllers/logincheck')
         VerifyEmail     =require('./controllers/verifyEmail');
         path            =require('path');
         cors            =require('cors');
@@ -35,6 +37,8 @@ app.post('/api/signup',Signup.create);
 app.post('/api/login',Login.verify);
 app.get('/api/users',UserList.users);
 app.post('/api/signup/verify',Verify.verify);
+app.post('/api/login/check',logincheck.check);
+app.post('/api/login/verify',loginverify.verify);
 app.post('/api/verifyEmail',VerifyEmail.verifyemail);
 app.post('/api/googlesignup',googleSignup.create);
 app.post('/api/googlelogin',googleLogin.verify);

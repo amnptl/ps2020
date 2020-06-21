@@ -24,11 +24,9 @@ const validate = (email) => {
     return expression.test(String(email).toLowerCase())
 }
 function resendOTP(){
-  var element2=document.getElementById('mail');
-  element2.disabled=true;
-  var resendbut=document.getElementById('resend');
-  resendbut.disabled=true;
-  setTimeout(()=>{resendbut.disabled = false;},120000);
+  var element2=document.getElementById('email-div');
+  element2.style.display='none';
+  setTimeout(()=>{window.location.reload()},120000);
   fetch('http://localhost:3001/api/login',
     {
     method:'POST',
@@ -74,14 +72,40 @@ myChangeHandler = (event) => {
     x.style.display='none';
     var y=document.getElementById('otp-timer');
     y.style.display='none';
+  }  else if(nam=="email" && validate(val))
+  {
+    let email_data={
+      email:val.toLowerCase()
+    }
+    fetch('http://localhost:3001/api/login/check',
+      {
+      method:'POST',
+      headers:{
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body:JSON.stringify(email_data)
+    })
+    .then((res)=>res.json())
+    .then((exists)=>{
+      console.log(exists.alreadyExists);
+      if(!exists.alreadyExists)
+      {
+        let emailErr="Account does not exists\nPlease Register";
+        this.setState({emailErr});
+      }
+      else {
+        let emailErr="";
+        this.setState({emailErr});
+      }
+    });
   }
   else if(nam=="otp" && val.length>=4)
   {
     data={
-      email:document.getElementById('mail').value,
+      email:document.getElementById('mail').value.toLowerCase(),
       verificationcode:val
     }
-    fetch('http://localhost:3001/api/signup/verify',
+    fetch('http://localhost:3001/api/login/verify',
       {
       method:'POST',
       headers:{
@@ -91,8 +115,8 @@ myChangeHandler = (event) => {
     })
     .then((res)=>res.json())
     .then((data)=>{
-      console.log(data.isVerified);
-      if(data.isVerified)
+      console.log(data.loginCheck);
+      if(data.loginCheck)
       window.location.href='#/dashboard';
       else
       {
@@ -127,11 +151,6 @@ handleSubmit(e){
   {
     var signinbtn=document.getElementById('sinbtn');
     signinbtn.disabled=true;
-    // var resendbut=document.getElementById('resend');
-    // resendbut.disabled=true;
-    // setTimeout(()=>{resendbut.disabled =false;alert("Resend OTP enabled");},5000);
-    // var element2=document.getElementById('mail');
-    // element2.disabled=true;
     data={
       email:document.getElementById('mail').value
     }
@@ -178,70 +197,67 @@ render(){
 mail=this.state.email;
   return (
     <html lang="en">
-    <body>
-    	<div class="limiter">
-    		<div class="container-login100">
-    			<div class="login100-more"><div className='image'/></div>
-    			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
-          <a href='/'><div className="logo"/></a>
-    				<form class="login100-form validate-form">
-    					<span class="login100-form-title p-b-59">
-    						Sign In
-                <hr/>
-                <GoogleLogin
-                clientId="689118196122-o7v1jkou1ef2omo3ls7k59rljar911g0.apps.googleusercontent.com"
-                buttonText="Login with Google "
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={"single_host_origin"}
-                />
-        </span>
-    					<div class="wrap-input100 validate-input" data-validate="Email is required">
-    						<input class="input100" type="email" id="mail" name="email" placeholder="Email...." onChange={this.myChangeHandler}/>
-                {this.state.emailErr? <div className="danger">{this.state.emailErr}</div>:null}
-    						<span class="focus-input100"></span>
-    					</div>
-    					<div class="wrap-input100 validate-input" data-validate = "Wrong OTP">
-    						<input class="input100" type="Password" id="otp" name="otp" placeholder="OTP...." id="otp-div" onChange={this.myChangeHandler}/>
-                  {this.state.otpErr? <div className="danger">{this.state.otpErr}</div>:null}
-    						<span class="focus-input100"></span>
-    					</div>
-              <div id="otp-timer">
-              Please enter the OTP you received on your Email <label style={{color:'blue'}}>{mail}</label>
-              <div className="timer-wrapper">
-       <CountdownCircleTimer
-         isPlaying
-         size={100}
-         strokeWidth={7}
-         duration={120}
-         colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-         onComplete={() => [true, 1000]}
-       >
-         {renderTime}
-       </CountdownCircleTimer>
-     </div>
-              <button onClick={this.reset} className="reset_btns">Change Email </button>
-              &nbsp;OR&nbsp;
-              <button  id="resend" className="reset_btns" onClick={()=>resendOTP()}>Resend OTP</button>
-              </div>
-    					<div class="container-login100-form-btn">
-    						<div class="wrap-login100-form-btn">
-    							<div class="login100-form-bgbtn"></div>
-    							<button class="login100-form-btn" id="sinbtn" onClick={this.handleSubmit}>
-    								Sign In
-    							</button>
-    						</div>
-    						<a href="#/signup" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
-    							Sign Up
-    							<i class="fa fa-long-arrow-right m-l-5"></i>
-    						</a>
-    					</div>
-    				</form>
-    			</div>
-    		</div>
-    	</div>
-    </body>
-    </html>
+     <body>
+     	<div class="limiter">
+     		<div class="container-login100">
+     			<div class="login100-more"><div className='image'/></div>
+     			<div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+           <a href='/'><div className="logo"/></a>
+     				<form class="login100-form validate-form">
+     					<span class="login100-form-title p-b-59">
+     						Sign In
+                 <hr/>
+                 <GoogleLogin
+                 clientId="689118196122-o7v1jkou1ef2omo3ls7k59rljar911g0.apps.googleusercontent.com"
+                 buttonText="Login with Google "
+                 onSuccess={responseGoogle}
+                 onFailure={responseGoogle}
+                 cookiePolicy={"single_host_origin"}
+                 />
+         </span>
+     					<div class="wrap-input100 validate-input" data-validate="Email is required" id="email-div">
+     						<input class="input100" type="email" id="mail" name="email" placeholder="Email...." onChange={this.myChangeHandler}/>
+                 {this.state.emailErr? <div className="danger">{this.state.emailErr}</div>:null}
+     						<span class="focus-input100"></span>
+     					</div>
+     					<div class="wrap-input100 validate-input" data-validate = "Wrong OTP" id="otp-div">
+     						<input class="input100" type="Password" id="otp" name="otp" placeholder="OTP...."  onChange={this.myChangeHandler}/>
+                   {this.state.otpErr? <div className="danger">{this.state.otpErr}</div>:null}
+     						<span class="focus-input100"></span>
+     					</div>
+               <div id="otp-timer">
+               Please enter the OTP you received on your Email <label style={{color:'blue'}}>{mail}</label>
+               <div className="timer-wrapper">
+        <CountdownCircleTimer
+          isPlaying
+          size={100}
+          strokeWidth={7}
+          duration={120}
+          colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+          onComplete={() => [true, 1000]}
+        >
+          {renderTime}
+        </CountdownCircleTimer>
+      </div>
+             </div>
+     					<div class="container-login100-form-btn">
+     						<div class="wrap-login100-form-btn">
+     							<div class="login100-form-bgbtn"></div>
+     							<button class="login100-form-btn" id="sinbtn" onClick={this.handleSubmit}>
+     								Sign In
+     							</button>
+     						</div>
+     						<a href="#/signup" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+     							Sign Up
+     							<i class="fa fa-long-arrow-right m-l-5"></i>
+     						</a>
+     					</div>
+     				</form>
+     			</div>
+     		</div>
+     	</div>
+     </body>
+     </html>
   );
 }
 }
