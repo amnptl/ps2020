@@ -31,6 +31,9 @@ function Dashboard() {
                <Menu.Item key='ViewProfile'>
                 <Link to="/dashboard/viewprofile"> View Profile</Link>
                </Menu.Item>
+               <Menu.Item key='StudentProfiles'>
+                <Link to="/student-profiles"> Student Profiles</Link>
+               </Menu.Item>
               <SubMenu
               title={
             <span>

@@ -5,6 +5,10 @@ import Login from './components/Login_Design/login';
 import Signup from './components/Signup_Design/signup';
 import Dashboard from './components/Dashboard/dashboard';
 import AdminDashboard from './components/Dashboard/AdminDashboard'
+import Display from './components/Profile_Display/display'
+
+
+
 import About from './components/about';
 
 import { HashRouter as Router, Switch, Route} from 'react-router-dom';
@@ -18,6 +22,8 @@ function App() {
                   <Route path="/" exact component={Login} />
                   <Route path="/signup" component={Signup} />
                   <PrivateRoute path="/dashboard" component={Dashboard} />
+                  <PrivateRoute path="/student-profiles" component={Display} />
+
                   <PrivateRouteAdmin path="/admindashboard" component={AdminDashboard} />
                   <Route path="/createaccount" component={createAccount} />
             </Switch>
