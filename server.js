@@ -14,8 +14,10 @@ let     express         =require('express'),
         cors            =require('cors');
         googleSignup    =require('./controllers/googlesignup');
         googleLogin     =require('./controllers/googlelogin');
+        UserData        =require('./controllers/userData');
         Router          =express.Router();
-mongoose.connect('mongodb://localhost/apiTest', { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
+        mongoURI        =require('./config/keys').mongoURI;
+mongoose.connect(mongoURI, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true});
 // body parser middleware
 app.use(express.static(path.join(__dirname, "./client/","build")));
 //app.use(express.static(path.join(__dirname, "./client/","public")));
@@ -36,6 +38,8 @@ UserDetails.find()
 app.post('/api/signup',Signup.create);
 app.post('/api/login',Login.verify);
 app.get('/api/users',UserList.users);
+app.post('/api/userData/updateDetails', UserData.updateDetails);
+app.post('/api/userData/getDetails', UserData.getDetails);
 app.post('/api/signup/verify',Verify.verify);
 app.post('/api/login/check',logincheck.check);
 app.post('/api/login/verify',loginverify.verify);

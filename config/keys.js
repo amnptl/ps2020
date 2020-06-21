@@ -1,4 +1,4 @@
-const mongoURI = "";
+const mongoURI = "mongodb://localhost/apiTest";
 //email credentials
 const emailAuth = {
         user: "platifi.jobs@gmail.com",

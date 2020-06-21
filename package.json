@@ -20,11 +20,14 @@
     "nodemon": "^2.0.4"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "mongoose": "^5.9.18",
+    "mongoose": "^5.9.19",
     "nodemailer": "^6.4.8",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "react-countdown-circle-timer": "^2.2.1",
+    "react-google-login": "^5.1.20"
   }
 }
