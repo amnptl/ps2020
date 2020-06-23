@@ -4,10 +4,11 @@ let     express         =require('express'),
         mongoose        =require('mongoose'),
         UserDetails     =require('./../models/userDetails'),
         nodemailer      =require('nodemailer'),
-        app             =express();
-        config          =require('../config/config.js')
-        emailAuth       =require('../config/keys.js')
-                         require('dotenv').config();
+        app             =express(),
+        sendMail        =require('./sendMail'),
+        config          =require('./../config/config.js'),
+        emailAuth       =require('../config/keys.js');
+                        //  require('dotenv').config();
 var data_client;
 var data;
 module.exports= {
@@ -24,12 +25,12 @@ module.exports= {
             isVerified:false,
             verificationCode:otp
         },
-            name:req.body.name,
+        name:req.body.name,
     };
     const mailToBeSent = `
     <h1>Hi ${data_client.name}! </h1> \
         <h1>Welcome to</h1><br>    \
-        <a href= ${config.platifiJobsURL} ><img src= ${config.platifiJobsLogo} alt='Platifi Jobs'></a> \
+        <a href= ${config.platifiJobsURL} ><img src="${config.platifiJobsLogo}" alt='Platifi Jobs'></a> \
         <p>Thanks for registering to Platifi Jobs. <br>In order to successfully verify your email, enter this OTP:<br> \
         <h1> ${otp}</h1><br> \
         <b>Note:</b> This is a system generated e-mail, kindly do not reply<br>
@@ -43,7 +44,7 @@ module.exports= {
             let exists={
               alreadyExists:true
             }
-            res.json(exists)
+            // res.json(exists);
             console.log('returning true');
             return true;
         }
@@ -52,7 +53,7 @@ module.exports= {
             let exists={
               alreadyExists:false
             }
-            res.json(exists)
+            // res.json(exists);
             return false;
         }
     })
@@ -68,13 +69,13 @@ module.exports= {
                     .then(() => {
                       console.log(otp);
                         console.log('email has been sent!');
-                        //res.send('email has been sent');
+                        res.send('email has been sent');
                         setTimeout(() => {
                             console.log('calling delete functions');
                             UserDetails.findOne({ 'email': req.body.email })
                             .then((foundUser) => {
                                 console.log(foundUser);
-                                if (foundUser.verification.isVerified == false) {
+                                if (foundUser.verification.isVerified === false) {
                                     // delete the user
                                     console.log("user found unverified!");
                                     UserDetails.findOneAndDelete({ 'email': foundUser.email })
@@ -85,6 +86,16 @@ module.exports= {
                                         console.log(err);
                                     });
                                 }
+                                else{
+                                    console.log(`setting the verification code null`);
+                                    UserDetails.findOneAndUpdate({'email' : foundUser.email},{$set: {verification : {isVerified:true , verificationCode:null}}})
+                                    .then(updatedUser => {
+                                        console.log(updatedUser);
+                                    })
+                                    .catch(err=>{
+                                        console.log(err);
+                                    })
+                                }
                             })
                             .catch(err => {
                                 console.log(err);
@@ -92,7 +103,37 @@ module.exports= {
                         }, 125000);
                     })
                     .catch(err => {
+                        console.log('error related to sending mail');
                         console.log(err);
+                        UserDetails.findOne({ 'email': req.body.email })
+                        .then((foundUser) => {
+                            console.log(foundUser);
+                            if (foundUser.verification.isVerified === false) {
+                                // delete the user
+                                console.log("user found unverified!");
+                                UserDetails.findOneAndDelete({ 'email': foundUser.email })
+                                .then(deletedUser => {
+                                    console.log(deletedUser);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                });
+                            }
+                            else {
+                                console.log(`setting the verification code null`);
+                                UserDetails.findOneAndUpdate({ 'email': foundUser.email }, { $set: { verification: { isVerified: true, verificationCode: null } } })
+                                .then(updatedUser => {
+                                    console.log(updatedUser);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                })
+                            }
+                        })
+                        .catch(err=>{
+                            console.log("error related to DB");
+                            console.log(err);
+                        })
                     })
             })
             .catch((err) => {
@@ -107,23 +148,4 @@ module.exports= {
     });
   }
 }
-async function sendMail(mailContent) {
-    let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-          user:process.env.user,
-          pass:process.env.pass // generated ethereal password
-        },
-    });
 
-    // send mail with defined transport object
-    let info = await transporter.sendMail({
-        from: 'Platifi Jobs <platifi.jobs@gmail.com>', // sender address
-        to: data_client.email, // list of receivers
-        subject: "New Registration", // Subject line
-        text: "Hello world?", // plain text body
-        html: mailContent, // html body
-    });
-};

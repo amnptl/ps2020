@@ -2,43 +2,44 @@ const UserDetails=require('./../models/userDetails');
 module.exports= {
   verify : (req,res)=>
   {
-    console.log("Verifying....");
     console.log(req.body);
     UserDetails.findOne({'email':req.body.email})
     .then(foundUser=>{
         if(!foundUser){
-            console.log("jdsbvjbfdsiv");
-            return res.send('your otp must have expired try signing up again!');
-        }
-        console.log(foundUser);
-        if (req.body.verificationcode===foundUser.verification.verificationCode)
-        {
-            UserDetails.findByIdAndUpdate(foundUser._id, { $set: {loginCheck:true } })
-            .then(()=>{
-                let data={
-                  loginCheck:true
-                }
-                console.log('mail verified');
-                res.json(data)
-
-            })
-            .then(()=>{UserDetails.updateOne({'email':req.body.email}, { $set: {loginCheck:false } })})
-            .catch(err=>{
-                console.log(err);
-                res.send(err);
-                  UserDetails.findByIdAndUpdate(foundUser._id, { $set: {loginCheck:false } })
-            });
+            console.log('user needs to signup first');
         }
         else{
-          let data={
-            loginCheck:false
+          if(foundUser.verification.verificationCode===null){
+            console.log("your otp must have expired, Try sending it again");
           }
-          console.log('mail not verified');
-            res.json(data)
+          else{
+            if (req.body.verificationcode === foundUser.verification.verificationCode) {
+              UserDetails.findByIdAndUpdate(foundUser._id, { $set: { loginCheck: true } })
+                .then(() => {
+                  let data = {
+                    loginCheck: true
+                  }
+                  res.json(data);
+                })
+                .then(() => { UserDetails.updateOne({ 'email': req.body.email }, { $set: { loginCheck: false } }) })
+                .catch(err => {
+                  console.log(err);
+                  res.send(err);
+                  UserDetails.findByIdAndUpdate(foundUser._id, { $set: { loginCheck: false } })
+                });
+            }
+            else {
+              let data = {
+                loginCheck: false
+              }
+              res.json(data)
+            }
+          }
         }
     })
     .catch(err=>{
-        console.log(err);
+      console.log('error related to DB');
+      console.log(err);
     })
   }
 };

@@ -6,6 +6,4 @@ const config = {
 }
 //@todo update contact email
 
-module.exports={
-    config: config
-}
+module.exports=config;
